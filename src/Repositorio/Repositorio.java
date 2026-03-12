@@ -5,10 +5,7 @@ import Modelo.Expansion;
 import Modelo.IMediaItem;
 import Modelo.Juego;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Repositorio implements IRepositorio<IMediaItem> {
      private ArrayList<IMediaItem> lista;
@@ -54,7 +51,11 @@ public class Repositorio implements IRepositorio<IMediaItem> {
     @Override
     public String mostrar() {
         String rta="";
-        for (IMediaItem elemento : lista) {
+
+        List <IMediaItem> ordenada=new ArrayList<>(lista);
+        ordenada.sort(Comparator.comparing(IMediaItem::getTitulo)); // ordena por titulo
+
+        for (IMediaItem elemento : ordenada) {
             rta+=elemento.toString()+"\n";
         }
         return rta;
@@ -95,6 +96,8 @@ public class Repositorio implements IRepositorio<IMediaItem> {
                                 if(elemento instanceof Expansion){
                                     ((Expansion) elemento).setFechaLanzamiento(nuevoValor);
                                     rta="Se modifico la fecha de lanzamiento";
+                                }else {
+                                    rta="no se puede modificar";
                                 }
                                 break;
                     default:
